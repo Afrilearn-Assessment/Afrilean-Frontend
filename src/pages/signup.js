@@ -1,14 +1,45 @@
-import React, { Fragment,useState,useEffect } from 'react'
+import React, { Fragment,useState } from 'react'
+import {useHistory} from 'react-router-dom'
 import Header from './layout/header';
 import Footer from './layout/footer';
+import api from '../api';
+import Alert from "react-s-alert";
 
 function Signup(props) {
+    let history = useHistory();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setconfirmPassword] = useState("");
-    const Register = ()=>{
+    const Register = (e)=>{
+      e.preventDefault();
+      // console.log(firstName,lastName,email,password,confirmPassword);
+      if(password === confirmPassword){
+        // console.log('password match')
+        api.post("/register",{firstName:firstName,lastName:lastName,email:email,password:password}).then(resp=>{
+          // console.log(resp);
+          if (resp.data.success==true){
+            history.push("/login");
+          }else{
+            Alert.error(resp.data.message,{
+              position: 'top-right',
+              effect: 'bouncyflip',
+              beep: true,
+              timeout: 5000,
+              offset: 10
+            })
+          }
+        })
+      }else{
+        Alert.error("password do not match",{
+          position: 'top-right',
+          effect: 'bouncyflip',
+          beep: true,
+          timeout: 5000,
+          offset: 10
+        })
+      }
 
     }
     return (
@@ -24,19 +55,19 @@ function Signup(props) {
                   <h3>Join Afrilearn to quality affordable Education</h3><br/>
                   <form >
                     <div className="form-group">
-                      <input type="text" placeholder="Your first name" className="input-group input-lg" onChange={(e)=>{setFirstName(e.value)}} />
+                      <input type="text" placeholder="Your first name" className="input-group input-lg" required onChange={(e)=>{setFirstName(e.target.value)}} />
                     </div>
                     <div className="form-group">
-                      <input type="text" placeholder="Your last name" className="input-group input-lg" onChange={(e)=>{setLastName(e.value)}} />
+                      <input type="text" placeholder="Your last name" className="input-group input-lg" required onChange={(e)=>{setLastName(e.target.value)}} />
                     </div>
                     <div className="form-group">
-                      <input type="email" placeholder="Your email" className="input-group input-lg"  onChange={(e)=>{setEmail(e.value)}}/>
+                      <input type="email" placeholder="Your email" className="input-group input-lg" required  onChange={(e)=>{setEmail(e.target.value)}}/>
                     </div>
                     <div className="form-group">
-                      <input type="password" placeholder="Your password" className="input-group input-lg" onChange={(e)=>{setPassword(e.value)}} />
+                      <input type="password" placeholder="Your password" className="input-group input-lg" required onChange={(e)=>{setPassword(e.target.value)}} />
                     </div>
                     <div className="form-group">
-                      <input type="password" placeholder="Confirm password" className="input-group input-lg" onChange={(e)=>{setconfirmPassword(e.value)}}/>
+                      <input type="password" placeholder="Confirm password" className="input-group input-lg" onChange={(e)=>{setconfirmPassword(e.target.value)}}/>
                     </div>	
                     <div className="form-group">
                       <button className="btn btn-primary btn-lg btn3" onClick={Register}>Signup</button>

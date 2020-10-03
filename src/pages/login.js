@@ -1,12 +1,30 @@
-import React, { Fragment,useState,useEffect } from 'react'
+import React, { Fragment,useState } from 'react'
+import {useHistory} from 'react-router-dom'
 import Header from './layout/header';
 import Footer from './layout/footer';
+import api from '../api';
+import Alert from "react-s-alert";
 
 function Login(props) {
+    let history = useHistory();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const Login = ()=>{
-
+    const Login = (e)=>{
+        e.preventDefault();
+      // console.log(firstName,lastName,email,password);
+        api.post("/login",{email,password}).then(resp=>{
+          if (resp.data.success==true){
+            history.push("/");
+          }else{
+            Alert.error(resp.data.message,{
+              position: 'top-right',
+              effect: 'bouncyflip',
+              beep: true,
+              timeout: 5000,
+              offset: 10
+            })
+          }
+        })
     }
     return (
         <Fragment>
@@ -21,10 +39,10 @@ function Login(props) {
                   <h3 style={{fontSize:30}}>Login</h3><br/>
                   <form>
                     <div className="form-group">
-                      <input type="email" placeholder="Your email" className="input-group input-lg" onChange={(e)=>{setEmail(e.value)}} />
+                      <input type="email" placeholder="Your email" className="input-group input-lg" onChange={(e)=>{setEmail(e.target.value)}} />
                     </div>
                     <div className="form-group">
-                      <input type="password" placeholder="Your password" className="input-group input-lg" onChange={(e)=>{setPassword(e.value)}} />
+                      <input type="password" placeholder="Your password" className="input-group input-lg" onChange={(e)=>{setPassword(e.target.value)}} />
                     </div>	
                     <div className="form-group">
                       <button className="btn btn-primary btn-lg btn3" onClick={Login}>Login</button>

@@ -1,13 +1,13 @@
-import React from 'react';
+import React,{Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import Routes from './routes';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Suspense fallback>
     <Routes />
-  </React.StrictMode>,
+  </Suspense>,
   document.getElementById('root')
 );
 
