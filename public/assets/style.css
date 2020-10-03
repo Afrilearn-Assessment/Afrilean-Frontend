@@ -278,8 +278,9 @@ color: #333;
 /*----------------------------------------*/
 .slide_wrap_area{
   position:relative;	
-  background-image: url('/assets/img/home1/bg6.jpg');
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('/assets/img/home1/bg6.jpg');
   width: 100%;
+  /* opacity: 20; */
   background-size: cover;
 }
 .home-2.nav_area {
@@ -764,7 +765,7 @@ offer area css
   clear: both;
   color: #ffffff;
   font-size: 16px;
-  padding: 185px 0 180px;
+  padding: 100px 0 180px;
   position: relative;
   width: auto;
 }
